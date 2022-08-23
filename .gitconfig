@@ -1,0 +1,7 @@
+[user]
+	name = adrian-bjorling
+	email = 98982479+adrian-bjorling@users.noreply.github.com
+[core]
+	editor = nvim
+[init]
+	defaultBranch = main
