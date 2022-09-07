@@ -5,66 +5,66 @@ window:
   class:
     instance: Alacritty
     general: Alacritty
-  opacity: 0.9
+  opacity: 1.0
 
 scrolling:
   history: 10000
-  miltiplier: 3
+  multiplier: 3
 
 font:
-  size: 8
   normal:
-    family: "Hack"
-    style: "Regular"
+    family: JetBrains Mono Nerd Font
+    style: Medium
   bold:
-    family: "Hack"
-    style: "Bold"
+    family: JetBrains Mono Nerd Font
+    style: Bold
   italic:
-    family: "Hack"
-    style: "italic"
+    family: JetBrains Mono Nerd Font
+    style: Italic
   bold_italic:
-    family: "Hack"
-    style: "Bold Italic"
+    family: JetBrains Mono Nerd Font
+    style: BoldItalic
+  size: 7
 draw_bold_text_with_bright_colors: true
 
 colors:
-  # Tokyo Night theme, based on both:
-  #   https://github.com/ghifarit53/tokyonight-vim
-  #   https://github.com/enkia/tokyo-night-vscode-theme
-  # Default colors
-    primary:
-      background: '0x24283b'
-      foreground: '0xa9b1d6'
-
-    # Normal colors
-    normal:
-      black:   '0x32344a'
-      red:     '0xf7768e'
-      green:   '0x9ece6a'
-      yellow:  '0xe0af68'
-      blue:    '0x7aa2f7'
-      magenta: '0xad8ee6'
-      cyan:    '0x449dab'
-      white:   '0x9699a8'
-
-    # Bright colors
-    bright:
-      black:   '0x444b6a'
-      red:     '0xff7a93'
-      green:   '0xb9f27c'
-      yellow:  '0xff9e64'
-      blue:    '0x7da6ff'
-      magenta: '0xbb9af7'
-      cyan:    '0x0db9d7'
-      white:   '0xacb0d0'
-
-selection:
-  save_to_clipboard: true
-
-live_config_reload: true
-
-shell:
-  program: /usr/bin/bash
-
-key_bindings:
-  - { key: Return, mods: Super|Shift, action: SpawnNewInstance }
+  primary:
+    background: "0x191724"
+    foreground: "0xe0def4"
+  cursor:
+    text: "0xe0def4"
+    cursor: "0x524f67"
+  vi_mode_cursor:
+    text: "0xe0def4"
+    cursor: "0x524f67"
+  line_indicator:
+    foreground: None
+    background: None
+  selection:
+    text: "0xe0def4"
+    background: "0x403d52"
+  normal:
+    black: "0x26233a"
+    red: "0xeb6f92"
+    green: "0x31748f"
+    yellow: "0xf6c177"
+    blue: "0x9ccfd8"
+    magenta: "0xc4a7e7"
+    cyan: "0xebbcba"
+    white: "0xe0def4"
+  bright:
+    black: "0x6e6a86"
+    red: "0xeb6f92"
+    green: "0x31748f"
+    yellow: "0xf6c177"
+    blue: "0x9ccfd8"
+    magenta: "0xc4a7e7"
+    cyan: "0xebbcba"
+    white: "0xe0def4"
+  hints:
+    start:
+      foreground: "#908caa"
+      background: "#1f1d2e"
+    end:
+      foreground: "#6e6a86"
+      background: "#1f1d2e"
