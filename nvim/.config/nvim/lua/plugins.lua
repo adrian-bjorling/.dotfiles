@@ -49,7 +49,7 @@ return packer.startup(function(use)
   use { "akinsho/bufferline.nvim"}
   use { "nvim-lualine/lualine.nvim"}
   -- Colorschemes
-  use { "folke/tokyonight.nvim" }
+  use { "sainnhe/everforest" }
   use({
     'rose-pine/neovim',
     as = 'rose-pine',
