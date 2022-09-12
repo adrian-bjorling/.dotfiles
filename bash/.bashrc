@@ -141,10 +141,12 @@ ex ()
 
 # Alais
 alias c="clear"
-alias ls="exa -l --color=always --icons --group-directories-first"
+alias ls="exa -l --color=always --group-directories-first"
 alias la="exa -la --color=always --group-directories-first"
 alias pip="python -m pip"
 alias dotsync="bash ~/.dotfiles/sync.sh"
+
+alias ..="cd .."
 
 neofetch
 PS1="[\u@\h \W]\$ "
