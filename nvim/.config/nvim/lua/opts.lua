@@ -3,32 +3,32 @@ local opt = vim.opt
 local cmd = vim.api.nvim_command
 
 -- [[ Context ]]
-opt.colorcolumn = '120'
-opt.number = true
-opt.scrolloff = 4
-opt.signcolumn = "yes"
+--opt.colorcolumn = '80'           -- str:  Show col for max line length
+opt.number = true                -- bool: Show line numbers
+opt.scrolloff = 4                -- int:  Min num lines of context
+opt.signcolumn = "yes"           -- str:  Show the sign column
 
 -- [[ Filetypes ]]
-opt.encoding = 'utf8'
-opt.fileencoding = 'utf8'
+opt.encoding = 'utf8'            -- str:  String encoding to use
+opt.fileencoding = 'utf8'        -- str:  File encoding to use
 
 -- [[ Theme ]]
-opt.syntax = "ON"
-opt.termguicolors = true
-cmd('colorscheme everforest')
+opt.syntax = "ON"                -- str:  Allow syntax highlighting
+opt.termguicolors = true         -- bool: If term supports ui color then enable
+cmd('colorscheme tokyonight')
 
--- [[ Search ]]
-opt.ignorecase = true
-opt.smartcase = true
-opt.incsearch = true
-opt.hlsearch = false
+---- [[ Search ]]
+opt.ignorecase = true            -- bool: Ignore case in search patterns
+opt.smartcase = true             -- bool: Override ignorecase if search contains capitals
+opt.incsearch = true             -- bool: Use incremental search
+opt.hlsearch = false             -- bool: Highlight search matches
 
 -- [[ Whitespace ]]
-opt.expandtab = true
-opt.shiftwidth = 2
-opt.softtabstop = 2
-opt.tabstop = 2
+opt.expandtab = true             -- bool: Use spaces instead of tabs
+opt.shiftwidth = 2               -- num:  Size of an indent
+opt.softtabstop = 2              -- num:  Number of spaces tabs count for in insert mode
+opt.tabstop = 2                  -- num:  Number of spaces tabs count for
 
 -- [[ Splits ]]
-opt.splitright = true
-opt.splitbelow = true
+opt.splitright = true            -- bool: Place new window to right of current one
+opt.splitbelow = true            -- bool: Place new window below the current one
