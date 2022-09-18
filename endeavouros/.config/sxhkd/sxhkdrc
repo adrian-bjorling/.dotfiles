@@ -18,7 +18,7 @@ super + shift + @space
                 -columns 2 -padding 50 -hide-scrollbar -terminal xfce4-terminal \
                 -show-icons -drun-icon-theme "Arc-X-D" -font "Droid Sans Regular 10"
 # power-menu 
-super + shift + e
+super + e
      ~/.config/rofi/powermenu.sh
 
 super + x
@@ -130,9 +130,9 @@ super + Print
   ~/.config/bspwm/scripts/screenshot.sh
 
 # [[Shortcuts]]
-super + b 
+super + shift + b 
   firefox
-super + n 
-  thunar  
+super shift + n
+  alacritty -e ranger
 super + F1
   ~/.config/bspwm/scripts/keybindings_rofi.sh
