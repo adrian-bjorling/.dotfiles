@@ -28,7 +28,7 @@ return require('packer').startup(function(use)
     config = function()
     require"startup".setup()
   end}
-  use { 'mhinz/vim-startify' }                       -- start screen
+  --use { 'mhinz/vim-startify' }                       -- start screen
   use { 'DanilaMihailov/beacon.nvim' }               -- cursor jump
   use {
     'nvim-lualine/lualine.nvim',                     -- statusline
@@ -36,7 +36,5 @@ return require('packer').startup(function(use)
                 opt = true}
   }
   use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons' }
-  -- use { 'johann2357/nvim-smartbufs' }
-  use { 'folke/tokyonight.nvim' }
-  use { 'Mofiqul/dracula.nvim' }
+  use { 'ful1e5/onedark.nvim' }
 end)

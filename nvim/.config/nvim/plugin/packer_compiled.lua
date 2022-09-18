@@ -84,11 +84,6 @@ _G.packer_plugins = {
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
-  ["dracula.nvim"] = {
-    loaded = true,
-    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/dracula.nvim",
-    url = "https://github.com/Mofiqul/dracula.nvim"
-  },
   ["gv.vim"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/gv.vim",
@@ -119,6 +114,11 @@ _G.packer_plugins = {
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
   },
+  ["onedark.nvim"] = {
+    loaded = true,
+    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/onedark.nvim",
+    url = "https://github.com/ful1e5/onedark.nvim"
+  },
   ["plenary.nvim"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/plenary.nvim",
@@ -135,20 +135,10 @@ _G.packer_plugins = {
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
-  ["tokyonight.nvim"] = {
-    loaded = true,
-    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/tokyonight.nvim",
-    url = "https://github.com/folke/tokyonight.nvim"
-  },
   ["vim-fugitive"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/vim-fugitive",
     url = "https://github.com/tpope/vim-fugitive"
-  },
-  ["vim-startify"] = {
-    loaded = true,
-    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/vim-startify",
-    url = "https://github.com/mhinz/vim-startify"
   }
 }
 
