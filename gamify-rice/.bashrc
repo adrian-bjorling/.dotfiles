@@ -158,61 +158,11 @@ alias \
   tag="git tag" \
   newtag="git tag -a"
 
-# adding flags
-alias \
-  df="df -h" \
-  free="free -m" \
-  newsboat="newsboat -u ~/.config/newsboat/urls"
-
-# multimedia scripts
-alias \
-  fli="flix-cli" \
-  ani="ani-cli" \
-  aniq="ani-cli -q"
-
-# audio
-alias \
-  mx="pulsemixer" \
-  amx="alsamixer" \
-  mk="cmus" \
-  ms="cmus" \
-  music="cmus"
-
 # power management
-if [ "${os}" = "Arch Linux" ]; then
-    alias \
-      po="systemctl poweroff" \
-      sp="systemctl suspend" \
-      rb="systemctl reboot"
-elif [ "${os}" = "Void Linux" ]; then
-    alias \
-      po="loginctl poweroff" \
-      sp="loginctl suspend" \
-      rb="loginctl reboot"
-else
-    alias \
-      po="systemctl poweroff" \
-      sp="systemctl suspend" \
-      rb="systemctl reboot"
-fi
-
-# file management
 alias \
-  fm="$HOME/.config/vifm/scripts/vifmrun" \
-  file="$HOME/.config/vifm/scripts/vifmrun" \
-  flm="$HOME/.config/vifm/scripts/vifmrun" \
-  vifm="$HOME/.config/vifm/scripts/vifmrun" \
-  rm="rm -vI" \
-  mv="mv -iv" \
-  cp="cp -iv" \
-  mkd="mkdir -pv"
-
-# ps
-alias \
-  psa="ps auxf" \
-  psgrep="ps aux | grep -v grep | grep -i -e VSZ -e" \
-  psmem="ps auxf | sort -nr -k 4" \
-  pscpu="ps auxf | sort -nr -k 3"
+  po="systemctl poweroff" \
+  sp="systemctl suspend" \
+  rb="systemctl reboot"
 
 # youtube
 alias \
