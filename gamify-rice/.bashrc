@@ -127,7 +127,7 @@ alias \
   la="exa -a --color=always --group-directories-first" \
   ll="exa -l --color=always --group-directories-first" \
   lt="exa -aT --color=always --group-directories-first" \
-  l.='exa -a | egrep "^\."'
+  l.='exa -a | grep -E "^\."'
 
 # function to detect os and assign aliases to package managers
 os=$(grep NAME /etc/os-release | head -1 | cut -d'=' -f2 | sed 's/["]//g')
