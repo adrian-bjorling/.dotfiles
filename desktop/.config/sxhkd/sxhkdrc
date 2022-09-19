@@ -16,10 +16,10 @@ super + shift + @space
 	rofi -modi drun -show ssh
 # power-menu 
 super + e
-     ~/.config/rofi/powermenu.sh
+     ~/.config/rofi/scripts/rofi_power
 
 super + x
-  betterlockscreen -l dimblur
+  betterlockscreen -l
 # make sxhkd reload its configuration files:
 super + Escape
 	pkill -USR1 -x sxhkd
