@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/raccoon/.dotfiles/
+cd /home/koriander/.dotfiles/
 
 gstatus=`git status --porcelain`
 
