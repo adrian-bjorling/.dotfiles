@@ -1,0 +1,29 @@
+add_newline = false
+
+[line_break]
+disabled = true
+
+[character]
+error_symbol = "[>](bold red) "
+success_symbol = "[>](green)"
+#error_symbol = "[](bold red) "
+#success_symbol = "[](green)"
+
+[directory]
+truncation_length = 5
+#home_symbol = "~"
+#home_symbol = "🏠"
+format = "[$path](bold cyan) "
+
+[hostname]
+ssh_only = true
+disabled = false
+style = "bold italic #87A752"
+
+[package]
+disabled = true
+
+[username]
+show_always = false
+style_user = "bold dimmed blue"
+format =  "[$user]($style)[ in ](white)"

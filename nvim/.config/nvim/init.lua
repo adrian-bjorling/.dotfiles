@@ -14,7 +14,7 @@ require('plug')      -- Plugins
 require('nvim-tree').setup{}
 require('lualine').setup {
   options = {
-    theme = 'onedark-nvim',
+    theme = 'gruvbox',
   }
 }
 require('nvim-autopairs').setup{}

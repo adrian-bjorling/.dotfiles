@@ -37,4 +37,5 @@ return require('packer').startup(function(use)
   }
   use { 'akinsho/bufferline.nvim', tag = "v2.*", requires = 'kyazdani42/nvim-web-devicons' }
   use { 'ful1e5/onedark.nvim' }
+  use { "ellisonleao/gruvbox.nvim" }
 end)

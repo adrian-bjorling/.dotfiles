@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
     url = "https://github.com/akinsho/bufferline.nvim"
   },
+  ["gruvbox.nvim"] = {
+    loaded = true,
+    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/gruvbox.nvim",
+    url = "https://github.com/ellisonleao/gruvbox.nvim"
+  },
   ["gv.vim"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/gv.vim",
