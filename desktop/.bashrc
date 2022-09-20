@@ -130,12 +130,12 @@ alias \
   l.='exa -a | grep -E "^\."'
 
 alias \
-  pac-up="pacman -Syu" \
-  pac-get="pacman -S" \
-  pac-rmv="pacman -Rcns" \
-  pac-rmv-sec="pacman-R" \
-  pac-qry="pacman -Ss" \
-  pac-cln="pacman -Scc"
+  pac-up="sudo pacman -Syu" \
+  pac-get="sudo pacman -S" \
+  pac-rmv="sudo pacman -Rcns" \
+  pac-rmv-sec="sudo pacman-R" \
+  pac-qry="sudo pacman -Ss" \
+  pac-cln="sudo pacman -Scc"
 
 # colorize grep output (good for log files)
 alias \
@@ -161,7 +161,7 @@ alias \
 # power management
 alias \
   po="systemctl poweroff" \
-  sp="systemctl suspend" \
+  sp="betterlockscreen --suspend" \
   rb="systemctl reboot"
 
 # youtube
