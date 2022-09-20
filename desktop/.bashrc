@@ -130,12 +130,12 @@ alias \
   l.='exa -a | grep -E "^\."'
 
 alias \
-  pac-up="paru -Syyu" \
-  pac-get="paru -S" \
-  pac-rmv="paru -Rcns" \
-  pac-rmv-sec="paru -R" \
-  pac-qry="paru -Ss" \
-  pac-cln="paru -Scc"
+  pac-up="pacman -Syu" \
+  pac-get="pacman -S" \
+  pac-rmv="pacman -Rcns" \
+  pac-rmv-sec="pacman-R" \
+  pac-qry="pacman -Ss" \
+  pac-cln="pacman -Scc"
 
 # colorize grep output (good for log files)
 alias \
