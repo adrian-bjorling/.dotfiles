@@ -24,6 +24,7 @@ return require('packer').startup(function(use)
   use "tpope/vim-fugitive"    -- git integration
   use "junegunn/gv.vim"   -- commit history
   use "windwp/nvim-autopairs"
+  use "preservim/nerdcommenter"
 
   -- [[ Theme ]]
   use "DanilaMihailov/beacon.nvim"    -- cursor jump
@@ -35,4 +36,5 @@ return require('packer').startup(function(use)
   use { "akinsho/bufferline.nvim", tag = "v2.*", requires = "kyazdani42/nvim-web-devicons" }
   use "ful1e5/onedark.nvim"
   use "ellisonleao/gruvbox.nvim"
+  use "norcalli/nvim-colorizer.lua"
 end)
