@@ -17,8 +17,9 @@ map("n", "<S-h>", ":BufferLineCyclePrev<CR>", {}) --go to previous buffer
 map("n", "<leader>sl", ":SessionLoad<CR>", {})
 
 -- Keybindings for telescope
-map('n', '<leader>f', ':Telescope find_files<CR>', {})
 map("n", "<leader>fr", ":Telescope oldfiles<CR>", {})
 map("n", "<leader>ff", ":Telescope find_files<CR>", {})
 map("n", "<leader>fb", ":Telescope file_browser<CR>", {})
 map("n", "<leader>fw", ":Telescope live_grep<CR>", {})
+
+-- Keymaps for nerdcommenter

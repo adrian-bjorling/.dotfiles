@@ -16,7 +16,7 @@ opt.fileencoding = 'utf8'        -- str:  File encoding to use
 -- [[ Theme ]]
 opt.syntax = "ON"                -- str:  Allow syntax highlighting
 opt.termguicolors = true         -- bool: If term supports ui color then enable
-cmd.nvim_command('colorscheme gruvbox')
+cmd.nvim_command('colorscheme dracula')
 -- Highlight the region on yank
 cmd.nvim_create_autocmd('TextYankPost', {
     group = num_au,

@@ -60,7 +60,7 @@ db.custom_center = {
 require("nvim-tree").setup{}
 require("lualine").setup {
   options = {
-    theme = "gruvbox",
+    theme = "dracula-nvim",
   }
 }
 require("nvim-autopairs").setup{}
