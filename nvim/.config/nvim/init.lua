@@ -60,9 +60,9 @@ db.custom_center = {
 require("nvim-tree").setup{}
 require("lualine").setup {
   options = {
-    theme = "dracula-nvim",
+    theme = "onedark",
   }
 }
 require("nvim-autopairs").setup{}
 require("bufferline").setup{}
-require"colorizer".setup()
+require("colorizer").setup()

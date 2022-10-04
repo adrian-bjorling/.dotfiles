@@ -16,7 +16,7 @@ opt.fileencoding = 'utf8'        -- str:  File encoding to use
 -- [[ Theme ]]
 opt.syntax = "ON"                -- str:  Allow syntax highlighting
 opt.termguicolors = true         -- bool: If term supports ui color then enable
-cmd.nvim_command('colorscheme dracula')
+cmd.nvim_command("colorscheme onedark")
 -- Highlight the region on yank
 cmd.nvim_create_autocmd('TextYankPost', {
     group = num_au,
@@ -43,8 +43,6 @@ opt.wrap = true
 opt.textwidth = 300
 opt.list = true
 opt.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
--- opt.listchars = 'eol:¬,space:·,lead: ,trail:·,nbsp:◇,tab:→-,extends:▸,precedes:◂,multispace:···⬝,leadmultispace:│   ,'
--- opt.formatoptions = 'qrn1'
 
 -- [[ Splits ]]
 opt.splitright = true            -- bool: Place new window to right of current one

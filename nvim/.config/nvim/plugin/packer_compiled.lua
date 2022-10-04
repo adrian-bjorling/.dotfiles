@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/gv.vim",
     url = "https://github.com/junegunn/gv.vim"
   },
+  ["laserwave.nvim"] = {
+    loaded = true,
+    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/laserwave.nvim",
+    url = "https://github.com/lettertwo/laserwave.nvim"
+  },
   ["lualine.nvim"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/lualine.nvim",
@@ -137,7 +142,7 @@ _G.packer_plugins = {
   ["onedark.nvim"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/onedark.nvim",
-    url = "https://github.com/ful1e5/onedark.nvim"
+    url = "https://github.com/navarasu/onedark.nvim"
   },
   ["packer.nvim"] = {
     loaded = true,
