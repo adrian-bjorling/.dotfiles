@@ -1,7 +1,7 @@
-@theme "/usr/share/rofi/themes/gruvbox-dark-hard.rasi"
+@theme "~/.config/rofi/onedark.rasi"
+
 configuration {
-    font: "mononoki Nerd Font 14";
-    show-icons: true;
+    font: "TerminessTTF Nerd Font bold 10";
     display-window: "Window";
-    display-drun: "Search";
+    display-drun: "Search:";
 }
