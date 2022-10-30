@@ -55,6 +55,11 @@ db.custom_center = {
 
 require("nvim-tree").setup{
   sort_by = "case_sensitive",
+  git = {
+    enable = true,
+    ignore = false,
+    timeout = 500,
+  },
   view = {
     adaptive_size = true,
     mappings = {
