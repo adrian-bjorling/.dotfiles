@@ -8,3 +8,4 @@ export BROWSER="firefox"
 export WM="bspwm"
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
+exec startx

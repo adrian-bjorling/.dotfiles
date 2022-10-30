@@ -6,14 +6,8 @@ export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
     . /usr/share/bash-completion/bash_completion
 
-# if not running interactively, don't do anything
-[[ $- != *i* ]] && return
-
 # use neovim for vim if present.
 [ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
-
-# use $XINITRC variable if file exists.
-[ -f "$XINITRC" ] && alias startx="startx $XINITRC"
 
 ### SET VI MODE ###
 # Comment this line out to enable default emacs-like bindings
@@ -21,105 +15,16 @@ set -o vi
 bind -m vi-command 'Control-l: clear-screen'
 bind -m vi-insert 'Control-l: clear-screen'
 
-### PATH ###
-if [ -d "$HOME/.bin" ] ;
-  then PATH="$HOME/.bin:$PATH"
-fi
-if [ -d "$HOME/.local/bin" ] ;
-  then PATH="$HOME/.local/bin:$PATH"
-fi
-if [ -d "$HOME/Applications" ] ;
-  then PATH="$HOME/Applications:$PATH"
-fi
-if [ -d "$HOME/.emacs.d/bin" ] ;
-  then PATH="$HOME/.emacs.d/bin:$PATH"
-fi
-
-### CHANGE TITLE OF TERMINALS ###
-case ${TERM} in
-  xterm*|rxvt*|Eterm*|aterm|kterm|gnome*|alacritty|st|konsole*)
-    PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\007"'
-        ;;
-  screen*)
-    PROMPT_COMMAND='echo -ne "\033_${USER}@${HOSTNAME%%.*}:${PWD/#$HOME/\~}\033\\"'
-    ;;
-esac
-
-### SHOPT ###
-shopt -s autocd # change to named directory
-shopt -s cdspell # autocorrects cd misspellings
-shopt -s cmdhist # save multi-line commands in history as single line
-shopt -s dotglob
-shopt -s histappend # do not overwrite history
-shopt -s expand_aliases # expand aliases
-shopt -s checkwinsize # checks term size when bash regains control
-
 # ignore upper and lowercase when TAB completion
 bind "set completion-ignore-case on"
 
-# sudo not required for some system commands
-for command in cryptsetup mount umount poweroff reboot ; do
-alias $command="sudo $command"
-done; unset command
-
-### ARCHIVE EXTRACTION ###
-# usage: ex <file>
-ex ()
-{
-  if [ -f "$1" ] ; then
-    case $1 in
-      *.tar.bz2)   tar xjf "$1"   ;;
-      *.tar.gz)    tar xzf "$1"   ;;
-      *.bz2)       bunzip2 "$1"   ;;
-      *.rar)       unrar x "$1"   ;;
-      *.gz)        gunzip "$1"    ;;
-      *.tar)       tar xf "$1"    ;;
-      *.tbz2)      tar xjf "$1"   ;;
-      *.tgz)       tar xzf "$1"   ;;
-      *.zip)       unzip "$1"     ;;
-      *.Z)         uncompress "$1";;
-      *.7z)        7zz x "$1"     ;;
-      *.deb)       ar x "$1"      ;;
-      *.tar.xz)    tar xf "$1"    ;;
-      *.tar.zst)   unzstd "$1"    ;;
-      *)           echo "'$1' cannot be extracted via ex()" ;;
-    esac
-  else
-    echo "'$1' is not a valid file"
-  fi
-}
-
 ### ALIASES ###
-# navigation
-up () {
-  local d=""
-  local limit="$1"
-
-  # Default to limit of 1
-  if [ -z "$limit" ] || [ "$limit" -le 0 ]; then
-    limit=1
-  fi
-
-  for ((i=1;i<=limit;i++)); do
-    d="../$d"
-  done
-
-  # perform cd. Show error if cd fails
-  if ! cd "$d"; then
-    echo "Couldn't go up $limit dirs.";
-  fi
-}
-
 # cd
-alias \
-  ..="cd .." \
-  .2="cd ../.." \
-  .3="cd ../../.." \
-  .4="cd ../../../.." \
-  .5="cd ../../../../.."
+alias ..="cd .."
 
-# bat as cat
-[ -x "$(command -v bat)" ] && alias cat="bat"
+# planner
+alias planner="python ~/doc/scripts/my-extended-proaccess-planner.py"
+alias fetch-planner="python ~/doc/scripts/fetch-proaccess-planner.py"
 
 # Changing "ls" to "exa"
 alias \
@@ -136,12 +41,6 @@ alias \
   pac-rmv-sec="sudo pacman-R" \
   pac-qry="sudo pacman -Ss" \
   pac-cln="sudo pacman -Scc"
-
-# colorize grep output (good for log files)
-alias \
-  grep="grep --color=auto" \
-  egrep="grep -E --color=auto" \
-  fgrep="grep -F --color=auto"
 
 # git
 alias \
@@ -163,30 +62,6 @@ alias \
   po="systemctl poweroff" \
   sp="betterlockscreen --suspend" \
   rb="systemctl reboot"
-
-# youtube
-alias \
-  yta-aac="yt-dlp --extract-audio --audio-format aac" \
-  yta-best="yt-dlp --extract-audio --audio-format best" \
-  yta-flac="yt-dlp --extract-audio --audio-format flac" \
-  yta-m4a="yt-dlp --extract-audio --audio-format m4a" \
-  yta-mp3="yt-dlp --extract-audio --audio-format mp3" \
-  yta-opus="yt-dlp --extract-audio --audio-format opus" \
-  yta-vorbis="yt-dlp --extract-audio --audio-format vorbis" \
-  yta-wav="yt-dlp --extract-audio --audio-format wav" \
-  ytv-best="yt-dlp -f bestvideo+bestaudio" \
-  yt="ytfzf -f -t" \
-  ytm="ytfzf -m"
-
-# network and bluetooth
-alias \
-  netstats="nmcli dev" \
-  wfi="nmtui-connect" \
-  wfi-scan="nmcli dev wifi rescan && nmcli dev wifi list" \
-  wfi-edit="nmtui-edit" \
-  wfi-on="nmcli radio wifi on" \
-  wfi-off="nmcli radio wifi off" \
-  blt="bluetoothctl"
 
 ### SETTING THE STARSHIP PROMPT ###
 eval "$(starship init bash)"

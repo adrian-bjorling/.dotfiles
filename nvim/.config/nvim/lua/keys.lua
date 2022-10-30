@@ -13,8 +13,9 @@ map('n', '<leader>t', ':TagbarToggle<CR>', {})
 map("n", "<S-l>", ":BufferLineCycleNext<CR>", {}) --go to next buffer
 map("n", "<S-h>", ":BufferLineCyclePrev<CR>", {}) --go to previous buffer
 
--- [[Load recent sessions]]
+-- Dashboard
 map("n", "<leader>sl", ":SessionLoad<CR>", {})
+map("n", "<leader>fh", ":SessionLoad<CR>", {})
 
 -- Keybindings for telescope
 map("n", "<leader>fr", ":Telescope oldfiles<CR>", {})

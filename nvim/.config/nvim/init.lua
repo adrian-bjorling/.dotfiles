@@ -34,30 +34,42 @@ db.custom_center = {
       {icon = '  ',
       desc = 'Recently latest session                  ',
       shortcut = 'SPC s l',
-      action ='SessionLoad'},
+      action =':SessionLoad'},
       {icon = '  ',
       desc = 'Recently opened files                   ',
-      action =  'DashboardFindHistory',
-      shortcut = 'SPC f h'},
+      action =  ':Telescope oldfiles',
+      shortcut = 'SPC f r'},
       {icon = '  ',
       desc = 'Find  File                              ',
-      action = 'Telescope find_files find_command=rg,--hidden,--files',
+      action = ':Telescope find_files',
       shortcut = 'SPC f f'},
-      {icon = '  ',
-      desc ='File Browser                            ',
-      action =  'Telescope file_browser',
-      shortcut = 'SPC f b'},
       {icon = '  ',
       desc = 'Find  word                              ',
-      action = 'Telescope live_grep',
+      action = ':Telescope live_grep',
       shortcut = 'SPC f w'},
       {icon = '  ',
       desc = 'Open Personal dotfiles                  ',
-      action = 'Telescope dotfiles path=' .. home ..'/.dotfiles',
+      action = ':Telescope dotfiles path=' .. home ..'/.dotfiles',
       shortcut = 'SPC f d'},
 }
 
-require("nvim-tree").setup{}
+require("nvim-tree").setup{
+  sort_by = "case_sensitive",
+  view = {
+    adaptive_size = true,
+    mappings = {
+      list = {
+        { key = "u", action = "dir_up" },
+      },
+    },
+  },
+  renderer = {
+    group_empty = true,
+  },
+  filters = {
+    dotfiles = false,
+  },
+}
 require("lualine").setup {
   options = {
     theme = "onedark",
