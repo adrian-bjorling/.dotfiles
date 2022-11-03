@@ -1,0 +1,289 @@
+* Emacs Init
+
+** Package System Setup
+
+#+begin_src emacs-lisp
+  ;; Initialize package sources
+  (require 'package)
+
+  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
+			   ("org" . "https://orgmode.org/elpa/")
+			   ("elpa" . "https://elpa.gnu.org/packages/")))
+
+  (package-initialize)
+  (unless package-archive-contents
+   (package-refresh-contents))
+  
+  ;; Initialize use-package on non-Linux platforms
+  (unless (package-installed-p 'use-package)
+     (package-install 'use-package))
+
+  (require 'use-package)
+  (setq use-package-always-ensure t)
+#+end_src 
+
+** Backups
+
+So directories don't get cluttered with backupfiles.
+#+begin_src emacs-lisp
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
+#+end_src
+
+#+begin_src emacs-lisp
+  (setq delete-old-versions -1)
+  (setq version-control t)
+  (setq vc-make-backup-files t)
+  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+#+end_src
+
+** Basic UI Config
+
+#+begin_src emacs-lisp
+  (setq inhibit-startup-message t)
+
+  (scroll-bar-mode -1)        ; Disable visible scrollbar
+  (tool-bar-mode -1)          ; Disable the toolbar
+  (tooltip-mode -1)           ; Disable tooltips
+  (set-fringe-mode 1)        ; Give some breathing room
+
+  (menu-bar-mode -1)            ; Disable the menu bar
+
+  ;; Set up the visible bell
+  (setq visible-bell t)
+#+end_src
+
+#+begin_src emacs-lisp
+  (column-number-mode)
+  (global-display-line-numbers-mode t)
+
+  ;; Disable line numbers for some modes
+  (dolist (mode '(org-mode-hook
+                term-mode-hook
+                shell-mode-hook
+                eshell-mode-hook))
+  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+* Keybinding
+
+#+begin_src emacs-lisp
+  ;; Make ESC quit prompts
+  (global-set-key (kbd "<escape>") 'keyboard-escape-quit)
+
+  (use-package general
+    :config
+    (general-evil-setup t))
+
+  (nvmap :keymaps 'override :prefix "SPC"
+    "SPC" '(counsel-M-x :which-key "M-x")
+    "h r r" '((lambda () (interactive) (load-file "~/.emacs.d/init.el")) :which-key "reload emacs config"))
+
+  (use-package evil
+    :init
+    (setq evil-want-integration t)
+    (setq evil-want-keybinding nil)
+    (setq evil-want-C-u-scroll t)
+    (setq evil-want-C-i-jump nil)
+    :config
+    (evil-mode 1)
+    (define-key evil-insert-state-map (kbd "C-g") 'evil-normal-state)
+    (define-key evil-insert-state-map (kbd "C-h") 'evil-delete-backward-char-and-join)
+
+    ;; Use visual line motions even outside of visual-line-mode buffers
+    (evil-global-set-key 'motion "j" 'evil-next-visual-line)
+    (evil-global-set-key 'motion "k" 'evil-previous-visual-line)
+
+    (evil-set-initial-state 'messages-buffer-mode 'normal)
+    (evil-set-initial-state 'dashboard-mode 'normal))
+
+  (use-package evil-collection
+    :after evil
+    :config
+    (evil-collection-init))
+#+end_src
+
+** Toggles
+
+#+begin_src emacs-lisp
+  (nvmap :prefix "SPC"
+    "t"  '(:ignore t :which-key "toggles")
+    "tt" '(counsel-load-theme :which-key "choose theme")
+    "tt" '(toggle-truncate-lines :which-key "Toggle truncate lines")
+    "ts" '(hydra-text-scale/body :which-key "scale text"))
+#+end_src
+
+** Files
+
+#+begin_src emacs-lisp
+  (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
+    "." '(find-file :which-key "Find file")
+    "f" '(:ignore t :which-key "Files")
+    "ff" '(find-file :which-key "Find file")
+    "fr" '(counsel-recentf :which-key "Recent files")
+    "fs" '(save-buffer :which-key "Save file")
+    "fu" '(sudo-edit-find-file :which-key "Sudo find file")
+    "fy" '(dt/show-and-copy-buffer-path :which-key "Yank file path")
+    "fC" '(copy-file :which-key "Copy file")
+    "fD" '(delete-file :which-key "Delete file")
+    "fR" '(rename-file :which-key "Rename file")
+    "fS" '(write-file :which-key "Save file as...")
+    "fU" '(sudo-edit :which-key "Sudo edit file"))
+#+end_src
+
+** Org mode
+
+#+begin_src emacs-lisp
+  (nvmap :keymaps 'override :prefix "SPC"
+    "m" '(:ignore t :which-key "org")
+    "m*" '(org-ctrl-c-star :which-key "org-ctrl-c-star")
+    "m+" '(org-ctrl-c-minus :which-key "org-ctrl-c-minus")
+    "m." '(counsel-org-goto :which-key "counsel org goto")
+    "me" '(org-export-dispatch :which-key "org export dispatch")
+    "mf" '(org-footnote-new :which-key "org footnote new")
+    "mh" '(org-toggle-heading :which-key "org toggle heading")
+    "mi" '(org-toggle-item :which-key "org toggle item")
+    "mn" '(org-store-link :which-key "org store link")
+    "mo" '(org-set-property :which-key "org set property")
+    "mt" '(org-todo :which-key "org todo")
+    "mx" '(org-toggle-checkbox :which-key "org toggle checkbox")
+    "mB" '(org-babel-tangle :which-key "org babel tangle")
+    "mI" '(org-toggle-inline-images :which-key "org toggle inline imager")
+    "mT" '(org-todo-list :which-key "org todo list")
+    "oa" '(org-agenda :which-key "org agenda"))
+#+end_src
+
+** Buffer Control
+
+#+begin_src emacs-lisp
+  (nvmap :prefix "SPC"
+    "b" '(:ignore t :which-key "buffers")
+    "bb" '(counsel-ibuffer :which-key "select buffers")
+    "bc" '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
+    "bk" '(kill-current-buffer :which-key "Kill current buffer")
+    "<right>" '(next-buffer :which-key "Next buffer")
+    "<left>" '(previous-buffer :which-key "Previous buffer")
+    "bB" '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
+    "bK" '(kill-buffer :which-key "Kill buffer"))
+#+end_src
+
+* UI Config
+
+** Color Theme
+
+#+begin_src emacs-lisp
+  (use-package doom-themes
+    :init (load-theme 'doom-dracula t))
+#+end_src
+
+** Better Modeline
+
+#+begin_src emacs-lisp
+(use-package all-the-icons)
+
+(use-package doom-modeline
+  :init (doom-modeline-mode 1)
+  :custom ((doom-modeline-height 15)))
+#+end_src
+
+* Better UX
+
+** Wich Key
+
+#+begin_src emacs-lisp
+(use-package which-key
+  :init (which-key-mode)
+  :diminish which-key-mode
+  :config
+  (setq which-key-idle-delay 1))
+#+end_src
+
+** Ivy and Counsel
+
+#+begin_src emacs-lisp
+    (use-package ivy
+      :diminish
+      :bind (("C-s" . swiper)
+             :map ivy-minibuffer-map
+             ("TAB" . ivy-alt-done)
+             ("C-l" . ivy-alt-done)
+             ("C-j" . ivy-next-line)
+             ("C-k" . ivy-previous-line)
+             :map ivy-switch-buffer-map
+             ("C-k" . ivy-previous-line)
+             ("C-l" . ivy-done)
+             ("C-d" . ivy-switch-buffer-kill)
+             :map ivy-reverse-i-search-map
+             ("C-k" . ivy-previous-line)
+             ("C-d" . ivy-reverse-i-search-kill))
+      :config
+      (ivy-mode 1))
+
+    (use-package ivy-rich
+      :init
+      (ivy-rich-mode 1))
+
+    (use-package counsel
+      :bind (("C-M-j" . 'counsel-switch-buffer)
+             :map minibuffer-local-map
+             ("C-r" . 'counsel-minibuffer-history))
+      :config
+      (counsel-mode 1))
+#+end_src
+
+** Helpful Help Commands
+
+#+begin_src emacs-lisp
+  (use-package helpful
+    :custom
+    (counsel-describe-function-function #'helpful-callable)
+    (counsel-describe-variable-function #'helpful-variable)
+    :bind
+    ([remap describe-function] . counsel-describe-function)
+    ([remap describe-command] . helpful-command)
+    ([remap describe-variable] . counsel-describe-variable)
+    ([remap describe-key] . helpful-key))
+#+end_src
+
+** Text Scaling
+
+#+begin_src emacs-lisp
+  (use-package hydra)
+
+  (defhydra hydra-text-scale (:timeout 4)
+    "scale text"
+    ("j" text-scale-increase "in")
+    ("k" text-scale-decrease "out")
+    ("f" nil "finished" :exit t))
+#+end_src
+
+* Dev
+
+** Projectile
+
+#+begin_src emacs-lisp
+  (use-package projectile
+    :diminish projectile-mode
+    :config (projectile-mode)
+    :custom ((projectile-completion-system 'ivy))
+    :init
+    (when (file-directory-p "~/doc/repos")
+      (setq projectile-project-search-path '("~/doc/repos")))
+    (setq projectile-switch-project-action #'projectile-dired))
+
+  (use-package counsel-projectile
+  :config (counsel-projectile-mode))
+
+  (nvmap :prefix "SPC"
+    "p" '(projectile-command-map :which-key "projectile"))
+#+end_src
+
+** Magit
+
+#+begin_src emacs-lisp
+  (use-package magit
+    :custom
+    (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+#+end_src
+
+** Rainbow Delimiters
+

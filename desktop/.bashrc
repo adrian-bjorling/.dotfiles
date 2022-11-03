@@ -1,6 +1,7 @@
 ### EXPORT ###
 export TERM="xterm-256color"                      # getting proper colors
 export HISTCONTROL=ignoredups:erasedups           # no duplicate entries
+export PATH="$HOME/.emacs.d/bin:$PATH"
 
 # use bash-completion, if available
 [[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
