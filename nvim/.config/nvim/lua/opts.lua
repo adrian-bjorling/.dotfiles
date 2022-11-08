@@ -1,21 +1,21 @@
 --[[ opts.lua ]]
-local opt = vim.opt
+local set = vim.opt
 local cmd = vim.api
 
 -- [[ Context ]]
-opt.colorcolumn = '120'           -- str:  Show col for max line length
-opt.number = true                -- bool: Show line numbers
-opt.scrolloff = 8                -- int:  Min num lines of context
-opt.signcolumn = "yes"           -- str:  Show the sign column
-opt.mouse = "a"
+set.colorcolumn = "120"
+set.number = true
+set.scrolloff = 8
+set.signcolumn = "yes"
+set.mouse = "a"
 
 -- [[ Filetypes ]]
-opt.encoding = 'utf8'            -- str:  String encoding to use
-opt.fileencoding = 'utf8'        -- str:  File encoding to use
+set.encoding = "utf-8"
+set.fileencoding = "utf-8"
 
 -- [[ Theme ]]
-opt.syntax = "ON"                -- str:  Allow syntax highlighting
-opt.termguicolors = true         -- bool: If term supports ui color then enable
+set.syntax = "ON"
+set.termguicolors = true
 cmd.nvim_command("colorscheme onedark")
 -- Highlight the region on yank
 cmd.nvim_create_autocmd('TextYankPost', {
@@ -26,24 +26,24 @@ cmd.nvim_create_autocmd('TextYankPost', {
 })
 
 ---- [[ Search ]]
-opt.ignorecase = true            -- bool: Ignore case in search patterns
-opt.smartcase = true             -- bool: Override ignorecase if search contains capitals
-opt.incsearch = true             -- bool: Use incremental search
-opt.hlsearch = false             -- bool: Highlight search matches
+set.ignorecase = true
+set.smartcase = true
+set.incsearch = true
+set.hlsearch = false
 
 -- [[ Whitespace ]]
-opt.expandtab = true             -- bool: Use spaces instead of tabs
-opt.shiftwidth = 2               -- num:  Size of an indent
-opt.softtabstop = 2              -- num:  Number of spaces tabs count for in insert mode
-opt.tabstop = 2                  -- num:  Number of spaces tabs count for
-opt.smarttab = true
-opt.cindent = true
-opt.autoindent = true
-opt.wrap = true
-opt.textwidth = 300
-opt.list = true
-opt.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
+set.expandtab = true
+set.shiftwidth = 4
+set.softtabstop = 4
+set.tabstop = 4
+set.smarttab = true
+set.cindent = true
+set.autoindent = true
+set.wrap = true
+set.textwidth = 300
+set.list = true
+set.listchars = 'trail:·,nbsp:◇,tab:→ ,extends:▸,precedes:◂'
 
 -- [[ Splits ]]
-opt.splitright = true            -- bool: Place new window to right of current one
-opt.splitbelow = true            -- bool: Place new window below the current one
+set.splitright = true
+set.splitbelow = true

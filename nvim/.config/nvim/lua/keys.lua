@@ -1,26 +1,23 @@
 --[[ keys.lua ]]
 local map = vim.api.nvim_set_keymap
+local opt = { noremap = true }
 
 -- remap the key used to leave insert mode
-map('i', 'jk', '', {})
+map('i', 'jk', '', opt)
 
 -- Toggle nvim-tree
-map('n', '<leader>e', ':NvimTreeToggle<CR>', {})
-
-map('n', '<leader>t', ':TagbarToggle<CR>', {})
+map('n', '<leader>e', ':NvimTreeToggle<CR>', opt)
 
 -- Bufferline
-map("n", "<S-l>", ":BufferLineCycleNext<CR>", {}) --go to next buffer
-map("n", "<S-h>", ":BufferLineCyclePrev<CR>", {}) --go to previous buffer
+map("n", "<S-l>", ":BufferLineCycleNext<CR>", opt)
+map("n", "<S-h>", ":BufferLineCyclePrev<CR>", opt)
 
 -- Dashboard
-map("n", "<leader>sl", ":SessionLoad<CR>", {})
-map("n", "<leader>fh", ":SessionLoad<CR>", {})
+map("n", "<leader>sl", ":SessionLoad<CR>", opt)
+map("n", "<leader>fh", ":SessionLoad<CR>", opt)
 
 -- Keybindings for telescope
-map("n", "<leader>fr", ":Telescope oldfiles<CR>", {})
-map("n", "<leader>ff", ":Telescope find_files<CR>", {})
-map("n", "<leader>fb", ":Telescope file_browser<CR>", {})
-map("n", "<leader>fw", ":Telescope live_grep<CR>", {})
-
--- Keymaps for nerdcommenter
+map("n", "<leader>fr", ":Telescope oldfiles<CR>", opt)
+map("n", "<leader>ff", ":Telescope find_files<CR>", opt)
+map("n", "<leader>fb", ":Telescope file_browser<CR>", opt)
+map("n", "<leader>fw", ":Telescope live_grep<CR>", opt)
