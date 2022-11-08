@@ -16,7 +16,10 @@ set.fileencoding = "utf-8"
 -- [[ Theme ]]
 set.syntax = "ON"
 set.termguicolors = true
-cmd.nvim_command("colorscheme onedark")
+require('onedark').setup {
+    style = 'darker'
+}
+require('onedark').load()
 -- Highlight the region on yank
 cmd.nvim_create_autocmd('TextYankPost', {
     group = num_au,

@@ -2,11 +2,19 @@
 local map = vim.api.nvim_set_keymap
 local opt = { noremap = true }
 
+-- Leader
+vim.g.mapleader = " "
+vim.g.localleader = " "
+
 -- remap the key used to leave insert mode
 map('i', 'jk', '', opt)
 
 -- Toggle nvim-tree
 map('n', '<leader>e', ':NvimTreeToggle<CR>', opt)
+
+-- Toggle more plugins
+map('n', '<leader>l', ":IndentLinesToggle<CR>", opt)
+map('n', '<leader>t', ":TagbarToggle<CR>", opt)
 
 -- Bufferline
 map("n", "<S-l>", ":BufferLineCycleNext<CR>", opt)
