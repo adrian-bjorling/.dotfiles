@@ -128,6 +128,8 @@ super + Print
 # [[Shortcuts]]
 super + shift + b 
   firefox
+super + shift + p
+  passmenu
 super shift + n
   alacritty -e ranger
 super + F1
