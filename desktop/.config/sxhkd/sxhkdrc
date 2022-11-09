@@ -127,7 +127,7 @@ super + Print
 
 # [[Shortcuts]]
 super + shift + b 
-  firefox
+  brave
 super + shift + p
   passmenu
 super shift + n

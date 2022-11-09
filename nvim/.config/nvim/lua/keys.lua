@@ -1,6 +1,6 @@
 --[[ keys.lua ]]
 local map = vim.api.nvim_set_keymap
-local opt = { noremap = true }
+local opt = { noremap = true, silent = true }
 
 -- Leader
 vim.g.mapleader = " "

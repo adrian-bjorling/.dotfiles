@@ -17,4 +17,12 @@ return require('packer').startup(function(use)
   use 'tpope/vim-fugitive'
   use 'junegunn/gv.vim'
   use 'windwp/nvim-autopairs'
+
+  -- Dev
+  use 'neovim/nvim-lspconfig'
+  use 'hrsh7th/nvim-cmp'
+  use 'hrsh7th/cmp-nvim-lsp'
+  use 'saadparwaiz1/cmp_luasnip'
+  use 'L3MON4D3/LuaSnip'
+  use 'onsails/lspkind.nvim'
 end)
