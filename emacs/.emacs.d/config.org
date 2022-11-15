@@ -120,14 +120,6 @@ So directories don't get cluttered with backupfiles.
     "f" '(:ignore t :which-key "Files")
     "ff" '(find-file :which-key "Find file")
     "fr" '(counsel-recentf :which-key "Recent files")
-    "fs" '(save-buffer :which-key "Save file")
-    "fu" '(sudo-edit-find-file :which-key "Sudo find file")
-    "fy" '(dt/show-and-copy-buffer-path :which-key "Yank file path")
-    "fC" '(copy-file :which-key "Copy file")
-    "fD" '(delete-file :which-key "Delete file")
-    "fR" '(rename-file :which-key "Rename file")
-    "fS" '(write-file :which-key "Save file as...")
-    "fU" '(sudo-edit :which-key "Sudo edit file"))
 #+end_src
 
 ** Org mode
@@ -135,21 +127,6 @@ So directories don't get cluttered with backupfiles.
 #+begin_src emacs-lisp
   (nvmap :keymaps 'override :prefix "SPC"
     "m" '(:ignore t :which-key "org")
-    "m*" '(org-ctrl-c-star :which-key "org-ctrl-c-star")
-    "m+" '(org-ctrl-c-minus :which-key "org-ctrl-c-minus")
-    "m." '(counsel-org-goto :which-key "counsel org goto")
-    "me" '(org-export-dispatch :which-key "org export dispatch")
-    "mf" '(org-footnote-new :which-key "org footnote new")
-    "mh" '(org-toggle-heading :which-key "org toggle heading")
-    "mi" '(org-toggle-item :which-key "org toggle item")
-    "mn" '(org-store-link :which-key "org store link")
-    "mo" '(org-set-property :which-key "org set property")
-    "mt" '(org-todo :which-key "org todo")
-    "mx" '(org-toggle-checkbox :which-key "org toggle checkbox")
-    "mB" '(org-babel-tangle :which-key "org babel tangle")
-    "mI" '(org-toggle-inline-images :which-key "org toggle inline imager")
-    "mT" '(org-todo-list :which-key "org todo list")
-    "oa" '(org-agenda :which-key "org agenda"))
 #+end_src
 
 ** Buffer Control
