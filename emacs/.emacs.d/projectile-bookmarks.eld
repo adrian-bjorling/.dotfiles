@@ -1,1 +1,0 @@
-("~/.dotfiles/" "~/doc/repos/personal-site/" "~/doc/repos/mb-newsletter/" "~/doc/repos/daily-digest/" "~/doc/repos/budget-tracker/")
