@@ -1,42 +1,72 @@
-* Emacs Init
+* First
 
-** Package System Setup
+#+begin_src emacs-lisp
+  ;; NOTE: init.el is now generated from Emacs.org.  Please edit that file
+  ;;       in Emacs and init.el will be generated automatically!
+
+  ;; You will most likely need to adjust this font size for your system!
+  (defvar ab/default-font-size 100)
+  (defvar ab/default-variable-font-size 100)
+#+end_src
+
+* Setup
+
+** Config package source
 
 #+begin_src emacs-lisp
   ;; Initialize package sources
   (require 'package)
 
-  (setq package-archives '(("melpa" . "https://melpa.org/packages/")
-			   ("org" . "https://orgmode.org/elpa/")
-			   ("elpa" . "https://elpa.gnu.org/packages/")))
+  (setq package-enable-at-startup nil)
+  (setq package-archives '(("gnu" . "http://mirrors.163.com/elpa/gnu/")
+			   ("melpa" . "https://melpa.org/packages/")
+			   ("org" . "http://orgmode.org/elpa/")))
 
-  (package-initialize)
-  (unless package-archive-contents
-   (package-refresh-contents))
-  
-  ;; Initialize use-package on non-Linux platforms
   (unless (package-installed-p 'use-package)
-     (package-install 'use-package))
+    (package-refresh-contents)
+    (package-install 'use-package)
+    (eval-when-compile (require 'use-package)))
 
-  (require 'use-package)
   (setq use-package-always-ensure t)
-#+end_src 
-
-** Backups
-
-So directories don't get cluttered with backupfiles.
-#+begin_src emacs-lisp
-  (setq backup-directory-alist '(("." . "~/.emacs.d/backups")))
 #+end_src
 
+** Benchmark startup
+
 #+begin_src emacs-lisp
-  (setq delete-old-versions -1)
-  (setq version-control t)
-  (setq vc-make-backup-files t)
-  (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-save-list/" t)))
+  (use-package benchmark-init
+      :config
+      ;; To disable collection of benchmark data after init is done.
+      (add-hook 'after-init-hook 'benchmark-init/deactivate))
+
+    (add-hook 'after-init-hook
+	      (lambda () (message "loaded in %s" (emacs-init-time))))
 #+end_src
 
-** Basic UI Config
+** Increse garbage collector threshold
+
+#+begin_src emacs-lisp
+  (setq gc-cons-threshold 10000000)
+
+    ;; Restore after startup
+    (add-hook 'after-init-hook
+	      (lambda ()
+		(setq gc-cons-threshold 1000000)
+		(message "gc-cons-threshold restored to %S"
+			 gc-cons-threshold)))
+#+end_src
+
+** Make it easy to edit config
+
+#+begin_src emacs-lisp
+  (defun find-config ()
+      "Edit config.org"
+      (interactive)
+      (find-file "~/.dotfiles/.emacs.d/config.org"))
+
+  (global-set-key (kbd "C-c I") 'find-config)
+#+end_src
+
+* Preferences
 
 #+begin_src emacs-lisp
   (setq inhibit-startup-message t)
@@ -44,27 +74,36 @@ So directories don't get cluttered with backupfiles.
   (scroll-bar-mode -1)        ; Disable visible scrollbar
   (tool-bar-mode -1)          ; Disable the toolbar
   (tooltip-mode -1)           ; Disable tooltips
-  (set-fringe-mode 1)        ; Give some breathing room
+  (set-fringe-mode 10)        ; Give some breathing room
 
-  (menu-bar-mode -1)            ; Disable the menu bar
+  (menu-bar-mode -1)          ; Disable the menu bar
 
   ;; Set up the visible bell
   (setq visible-bell t)
-#+end_src
 
-#+begin_src emacs-lisp
   (column-number-mode)
   (global-display-line-numbers-mode t)
 
   ;; Disable line numbers for some modes
   (dolist (mode '(org-mode-hook
-                term-mode-hook
-                shell-mode-hook
-                eshell-mode-hook))
-  (add-hook mode (lambda () (display-line-numbers-mode 0))))
+		  term-mode-hook
+		  shell-mode-hook
+		  eshell-mode-hook))
+    (add-hook mode (lambda () (display-line-numbers-mode 0))))
+
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (setq backup-directory-alist '(("." . "~/.emacs.d/backup"))
+    backup-by-copying t    ; Don't delink hardlinks
+    version-control t      ; Use version numbers on backups
+    delete-old-versions t  ; Automatically delete excess backups
+    kept-new-versions 20   ; how many of the newest versions to keep
+    kept-old-versions 5    ; and how many of the old
+    )
+
+  (setq-default indent-tabs-mode nil)
 #+end_src
 
-* Keybinding
+* Keybinding Config
 
 #+begin_src emacs-lisp
   ;; Make ESC quit prompts
@@ -72,11 +111,14 @@ So directories don't get cluttered with backupfiles.
 
   (use-package general
     :config
-    (general-evil-setup t))
+    (general-create-definer rune/leader-keys
+      :keymaps '(normal insert visual emacs)
+      :prefix "SPC"
+      :global-prefix "C-SPC")
 
-  (nvmap :keymaps 'override :prefix "SPC"
-    "SPC" '(counsel-M-x :which-key "M-x")
-    "h r r" '((lambda () (interactive) (load-file "~/.emacs.d/init.el")) :which-key "reload emacs config"))
+    (rune/leader-keys
+      "t"  '(:ignore t :which-key "toggles")
+      "tt" '(counsel-load-theme :which-key "choose theme")))
 
   (use-package evil
     :init
@@ -102,109 +144,84 @@ So directories don't get cluttered with backupfiles.
     (evil-collection-init))
 #+end_src
 
-** Toggles
-
-#+begin_src emacs-lisp
-  (nvmap :prefix "SPC"
-    "t"  '(:ignore t :which-key "toggles")
-    "tt" '(counsel-load-theme :which-key "choose theme")
-    "tt" '(toggle-truncate-lines :which-key "Toggle truncate lines")
-    "ts" '(hydra-text-scale/body :which-key "scale text"))
-#+end_src
-
-** Files
-
-#+begin_src emacs-lisp
-  (nvmap :states '(normal visual) :keymaps 'override :prefix "SPC"
-    "." '(find-file :which-key "Find file")
-    "f" '(:ignore t :which-key "Files")
-    "ff" '(find-file :which-key "Find file")
-    "fr" '(counsel-recentf :which-key "Recent files")
-#+end_src
-
-** Org mode
-
-#+begin_src emacs-lisp
-  (nvmap :keymaps 'override :prefix "SPC"
-    "m" '(:ignore t :which-key "org")
-#+end_src
-
-** Buffer Control
-
-#+begin_src emacs-lisp
-  (nvmap :prefix "SPC"
-    "b" '(:ignore t :which-key "buffers")
-    "bb" '(counsel-ibuffer :which-key "select buffers")
-    "bc" '(clone-indirect-buffer-other-window :which-key "Clone indirect buffer other window")
-    "bk" '(kill-current-buffer :which-key "Kill current buffer")
-    "<right>" '(next-buffer :which-key "Next buffer")
-    "<left>" '(previous-buffer :which-key "Previous buffer")
-    "bB" '(ibuffer-list-buffers :which-key "Ibuffer list buffers")
-    "bK" '(kill-buffer :which-key "Kill buffer"))
-#+end_src
-
 * UI Config
+
+** Basic
+
+#+begin_src emacs-lisp
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
+#+end_src
+
+** Font Config
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'default nil :font "JetBrains Mono Nerd Font" :height ab/default-font-size)
+
+  ;; Set the fixed pitch face
+  (set-face-attribute 'fixed-pitch nil :font "JetBrains Mono Nerd Font" :height ab/default-font-size)
+
+  ;; Set the variable pitch face
+  (set-face-attribute 'variable-pitch nil :font "JetBrains Mono Nerd Font" :height ab/default-font-size :weight 'regular)
+#+end_src
 
 ** Color Theme
 
 #+begin_src emacs-lisp
   (use-package doom-themes
-    :init (load-theme 'doom-dracula t))
+    :init (load-theme 'doom-one t))
 #+end_src
 
 ** Better Modeline
 
 #+begin_src emacs-lisp
-(use-package all-the-icons)
+  (use-package all-the-icons)
 
-(use-package doom-modeline
-  :init (doom-modeline-mode 1)
-  :custom ((doom-modeline-height 15)))
+  (use-package doom-modeline
+    :init (doom-modeline-mode 1)
+    :custom ((doom-modeline-height 15)))
 #+end_src
 
-* Better UX
-
-** Wich Key
+** Which Key
 
 #+begin_src emacs-lisp
-(use-package which-key
-  :init (which-key-mode)
-  :diminish which-key-mode
-  :config
-  (setq which-key-idle-delay 1))
+  (use-package which-key
+    :init (which-key-mode)
+    :diminish which-key-mode
+    :config
+    (setq which-key-idle-delay 1))
 #+end_src
 
 ** Ivy and Counsel
 
 #+begin_src emacs-lisp
-    (use-package ivy
-      :diminish
-      :bind (("C-s" . swiper)
-             :map ivy-minibuffer-map
-             ("TAB" . ivy-alt-done)
-             ("C-l" . ivy-alt-done)
-             ("C-j" . ivy-next-line)
-             ("C-k" . ivy-previous-line)
-             :map ivy-switch-buffer-map
-             ("C-k" . ivy-previous-line)
-             ("C-l" . ivy-done)
-             ("C-d" . ivy-switch-buffer-kill)
-             :map ivy-reverse-i-search-map
-             ("C-k" . ivy-previous-line)
-             ("C-d" . ivy-reverse-i-search-kill))
-      :config
-      (ivy-mode 1))
+  (use-package ivy
+    :diminish
+    :bind (("C-s" . swiper)
+	   :map ivy-minibuffer-map
+	   ("TAB" . ivy-alt-done)
+	   ("C-l" . ivy-alt-done)
+	   ("C-j" . ivy-next-line)
+	   ("C-k" . ivy-previous-line)
+	   :map ivy-switch-buffer-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-l" . ivy-done)
+	   ("C-d" . ivy-switch-buffer-kill)
+	   :map ivy-reverse-i-search-map
+	   ("C-k" . ivy-previous-line)
+	   ("C-d" . ivy-reverse-i-search-kill))
+    :config
+    (ivy-mode 1))
 
-    (use-package ivy-rich
-      :init
-      (ivy-rich-mode 1))
+  (use-package ivy-rich
+    :init
+    (ivy-rich-mode 1))
 
-    (use-package counsel
-      :bind (("C-M-j" . 'counsel-switch-buffer)
-             :map minibuffer-local-map
-             ("C-r" . 'counsel-minibuffer-history))
-      :config
-      (counsel-mode 1))
+  (use-package counsel
+    :bind (("C-M-j" . 'counsel-switch-buffer)
+	   :map minibuffer-local-map
+	   ("C-r" . 'counsel-minibuffer-history))
+    :config
+    (counsel-mode 1))
 #+end_src
 
 ** Helpful Help Commands
@@ -231,9 +248,488 @@ So directories don't get cluttered with backupfiles.
     ("j" text-scale-increase "in")
     ("k" text-scale-decrease "out")
     ("f" nil "finished" :exit t))
+
+  (rune/leader-keys
+    "ts" '(hydra-text-scale/body :which-key "scale text"))
+#+end_src
+
+* Org Mode Config
+
+#+begin_src emacs-lisp
+#+end_src
+
+** Better Font Face
+
+#+begin_src emacs-lisp
+  (defun ab/org-font-setup ()
+    ;; Replace list hyphen with dot
+    (font-lock-add-keywords 'org-mode
+			    '(("^ *\\([-]\\) "
+			       (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
+
+    ;; Set faces for heading levels
+    (dolist (face '((org-level-1 . 1.2)
+		    (org-level-2 . 1.1)
+		    (org-level-3 . 1.05)
+		    (org-level-4 . 1.0)
+		    (org-level-5 . 1.1)
+		    (org-level-6 . 1.1)
+		    (org-level-7 . 1.1)
+		    (org-level-8 . 1.1)))
+      (set-face-attribute (car face) nil :font "JetBrains Mono Nerd Font" :weight 'regular :height (cdr face)))
+
+    ;; Ensure that anything that should be fixed-pitch in Org files appears that way
+    (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
+    (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
+    (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
+    (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+#+end_src
+
+** Basic Config
+
+#+begin_src emacs-lisp
+  (defun ab/org-mode-setup ()
+    (org-indent-mode)
+    (variable-pitch-mode 1)
+    (visual-line-mode 1))
+
+  (use-package org
+    :hook (org-mode . ab/org-mode-setup)
+    :config
+    (setq org-ellipsis " ▾")
+
+    (setq org-agenda-start-with-log-mode t)
+    (setq org-log-done 'time)
+    (setq org-log-into-drawer t)
+
+    (setq org-agenda-files
+	  '("~/Projects/Code/emacs-from-scratch/OrgFiles/Tasks.org"
+	    "~/Projects/Code/emacs-from-scratch/OrgFiles/Habits.org"
+	    "~/Projects/Code/emacs-from-scratch/OrgFiles/Birthdays.org"))
+
+    (require 'org-habit)
+    (add-to-list 'org-modules 'org-habit)
+    (setq org-habit-graph-column 60)
+
+    (setq org-todo-keywords
+      '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d!)")
+	(sequence "BACKLOG(b)" "PLAN(p)" "READY(r)" "ACTIVE(a)" "REVIEW(v)" "WAIT(w@/!)" "HOLD(h)" "|" "COMPLETED(c)" "CANC(k@)")))
+
+    (setq org-refile-targets
+      '(("Archive.org" :maxlevel . 1)
+	("Tasks.org" :maxlevel . 1)))
+
+    ;; Save Org buffers after refiling!
+    (advice-add 'org-refile :after 'org-save-all-org-buffers)
+
+    (setq org-tag-alist
+      '((:startgroup)
+	 ; Put mutually exclusive tags here
+	 (:endgroup)
+	 ("@errand" . ?E)
+	 ("@home" . ?H)
+	 ("@work" . ?W)
+	 ("agenda" . ?a)
+	 ("planning" . ?p)
+	 ("publish" . ?P)
+	 ("batch" . ?b)
+	 ("note" . ?n)
+	 ("idea" . ?i)))
+
+    ;; Configure custom agenda views
+    (setq org-agenda-custom-commands
+     '(("d" "Dashboard"
+       ((agenda "" ((org-deadline-warning-days 7)))
+	(todo "NEXT"
+	  ((org-agenda-overriding-header "Next Tasks")))
+	(tags-todo "agenda/ACTIVE" ((org-agenda-overriding-header "Active Projects")))))
+
+      ("n" "Next Tasks"
+       ((todo "NEXT"
+	  ((org-agenda-overriding-header "Next Tasks")))))
+
+      ("W" "Work Tasks" tags-todo "+work-email")
+
+      ;; Low-effort next actions
+      ("e" tags-todo "+TODO=\"NEXT\"+Effort<15&+Effort>0"
+       ((org-agenda-overriding-header "Low Effort Tasks")
+	(org-agenda-max-todos 20)
+	(org-agenda-files org-agenda-files)))
+
+      ("w" "Workflow Status"
+       ((todo "WAIT"
+	      ((org-agenda-overriding-header "Waiting on External")
+	       (org-agenda-files org-agenda-files)))
+	(todo "REVIEW"
+	      ((org-agenda-overriding-header "In Review")
+	       (org-agenda-files org-agenda-files)))
+	(todo "PLAN"
+	      ((org-agenda-overriding-header "In Planning")
+	       (org-agenda-todo-list-sublevels nil)
+	       (org-agenda-files org-agenda-files)))
+	(todo "BACKLOG"
+	      ((org-agenda-overriding-header "Project Backlog")
+	       (org-agenda-todo-list-sublevels nil)
+	       (org-agenda-files org-agenda-files)))
+	(todo "READY"
+	      ((org-agenda-overriding-header "Ready for Work")
+	       (org-agenda-files org-agenda-files)))
+	(todo "ACTIVE"
+	      ((org-agenda-overriding-header "Active Projects")
+	       (org-agenda-files org-agenda-files)))
+	(todo "COMPLETED"
+	      ((org-agenda-overriding-header "Completed Projects")
+	       (org-agenda-files org-agenda-files)))
+	(todo "CANC"
+	      ((org-agenda-overriding-header "Cancelled Projects")
+	       (org-agenda-files org-agenda-files)))))))
+
+    (setq org-capture-templates
+      `(("t" "Tasks / Projects")
+	("tt" "Task" entry (file+olp "~/Projects/Code/emacs-from-scratch/OrgFiles/Tasks.org" "Inbox")
+	     "* TODO %?\n  %U\n  %a\n  %i" :empty-lines 1)
+
+	("j" "Journal Entries")
+	("jj" "Journal" entry
+	     (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+	     "\n* %<%I:%M %p> - Journal :journal:\n\n%?\n\n"
+	     ;; ,(dw/read-file-as-string "~/Notes/Templates/Daily.org")
+	     :clock-in :clock-resume
+	     :empty-lines 1)
+	("jm" "Meeting" entry
+	     (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+	     "* %<%I:%M %p> - %a :meetings:\n\n%?\n\n"
+	     :clock-in :clock-resume
+	     :empty-lines 1)
+
+	("w" "Workflows")
+	("we" "Checking Email" entry (file+olp+datetree "~/Projects/Code/emacs-from-scratch/OrgFiles/Journal.org")
+	     "* Checking Email :email:\n\n%?" :clock-in :clock-resume :empty-lines 1)
+
+	("m" "Metrics Capture")
+	("mw" "Weight" table-line (file+headline "~/Projects/Code/emacs-from-scratch/OrgFiles/Metrics.org" "Weight")
+	 "| %U | %^{Weight} | %^{Notes} |" :kill-buffer t)))
+
+    (define-key global-map (kbd "C-c j")
+      (lambda () (interactive) (org-capture nil "jj")))
+
+    (ab/org-font-setup))
+#+end_src
+
+*** Nicer Heading Bullets
+
+#+begin_src emacs-lisp
+#+end_src
+
+*** Center Org Buffer
+
+#+begin_src emacs-lisp
+#+end_src
+
+** Configure Babel Language
+
+#+begin_src emacs-lisp
+  (org-babel-do-load-languages
+    'org-babel-load-languages
+    '((emacs-lisp . t)
+      (python . t)))
+
+  (push '("conf-unix" . conf-unix) org-src-lang-modes)
+#+end_src
+
+** Auto-tangle Config Files
+
+#+begin_src emacs-lisp
+  ;; Automatically tangle our Emacs.org config file when we save it
+  (defun efs/org-babel-tangle-config ()
+    (when (string-equal (buffer-file-name)
+			(expand-file-name "~/Projects/Code/emacs-from-scratch/Emacs.org"))
+      ;; Dynamic scoping to the rescue
+      (let ((org-confirm-babel-evaluate nil))
+	(org-babel-tangle))))
+
+  (add-hook 'org-mode-hook (lambda () (add-hook 'after-save-hook #'efs/org-babel-tangle-config)))
 #+end_src
 
 * Dev
+
+#+begin_src emacs-lisp
+  (use-package smartparens
+      :config
+      (add-hook 'prog-mode-hook 'smartparens-mode))
+
+  (use-package rainbow-delimiters
+    :config
+    (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+
+  (use-package rainbow-mode
+    :config
+    (setq rainbow-x-colors nil)
+    (add-hook 'prog-mode-hook 'rainbow-mode))
+
+  (add-hook 'prog-mode-hook 'electric-pair-mode)
+#+end_src
+
+** Fuzzy search
+
+#+begin_src emacs-lisp
+  (use-package fzf)
+  (use-package deadgrep)
+#+end_src
+
+** Environment management
+By default Emacs doesn't read from the same environment variables set in your terminal. This package fixes that.
+#+begin_src emacs-lisp
+  (use-package exec-path-from-shell
+    :config
+    (exec-path-from-shell-initialize))
+#+end_src
+
+** Jump to source
+Individual language packages often support IDE features like jump to source, but dumb-jump attempts to support many languages by simple searching. It's quite effective even with dynamic libraries like JS and Python.
+#+begin_src emacs-lisp
+  (use-package dumb-jump
+    :bind (("C-M-g" . dumb-jump-go)
+           ("C-M-p" . dumb-jump-back)
+           ("C-M-q" . dumb-jump-quick-look)))
+#+end_src
+
+** Syntax checking
+
+Flycheck is a general syntax highlighting framework which other packages hook into. It's an improvment on the built in flymake.
+Setup is pretty simple - we just enable globally and turn on a custom eslint function, and also add a custom checker for proselint.
+#+begin_src emacs-lisp
+  (use-package flycheck
+    :config
+    (add-hook 'after-init-hook 'global-flycheck-mode)
+    (add-hook 'flycheck-mode-hook 'jc/use-eslint-from-node-modules)
+    (add-to-list 'flycheck-checkers 'proselint)
+    (setq-default flycheck-highlighting-mode 'lines)
+    ;; Define fringe indicator / warning levels
+    (define-fringe-bitmap 'flycheck-fringe-bitmap-ball
+      (vector #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00011100
+              #b00111110
+              #b00111110
+              #b00111110
+              #b00011100
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000
+              #b00000000))
+    (flycheck-define-error-level 'error
+      :severity 2
+      :overlay-category 'flycheck-error-overlay
+      :fringe-bitmap 'flycheck-fringe-bitmap-ball
+      :fringe-face 'flycheck-fringe-error)
+    (flycheck-define-error-level 'warning
+      :severity 1
+      :overlay-category 'flycheck-warning-overlay
+      :fringe-bitmap 'flycheck-fringe-bitmap-ball
+      :fringe-face 'flycheck-fringe-warning)
+    (flycheck-define-error-level 'info
+      :severity 0
+      :overlay-category 'flycheck-info-overlay
+      :fringe-bitmap 'flycheck-fringe-bitmap-ball
+      :fringe-face 'flycheck-fringe-info))
+#+end_src
+
+Proselint is a syntax checker for English language. This defines a custom checker which will run in texty modes.
+Proselint is an external program, install it with pip install proselint for this to work.
+#+begin_src emacs-lisp
+  (flycheck-define-checker proselint
+    "A linter for prose."
+    :command ("proselint" source-inplace)
+    :error-patterns
+    ((warning line-start (file-name) ":" line ":" column ": "
+              (id (one-or-more (not (any " "))))
+              (message (one-or-more not-newline)
+                       (zero-or-more "\n" (any " ") (one-or-more not-newline)))
+              line-end))
+    :modes (text-mode markdown-mode gfm-mode org-mode))
+#+end_src
+
+** Autocomplete
+
+=Eglot= is a client to Language Server Protocol servers.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package eglot
+    :commands eglot
+    :config
+    (add-to-list 'eglot-server-programs '(elm-mode . ("elm-language-server" "--stdio"))))
+#+END_SRC
+
+** Snippets
+
+Unlike autocomplete which suggests words / symbols, snippets are pre-prepared templates which you fill in.
+
+Type the shortcut and press =TAB= to complete, or =M-/= to autosuggest a snippet.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet
+      :config
+      (add-to-list 'yas-snippet-dirs "~/.emacs.d/snippets")
+      (yas-global-mode 1))
+#+END_SRC
+
+Install some premade snippets (in addition to personal ones stored above)
+
+#+BEGIN_SRC emacs-lisp
+  (use-package yasnippet-snippets)
+#+END_SRC
+
+** Javascript
+
+In JS indent to 2 spaces.
+
+#+BEGIN_SRC emacs-lisp
+  (setq-default js-indent-level 2)
+#+END_SRC
+
+JS2 mode improves on the built in JS mode.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-mode
+    :mode "\\.js\\'"
+    :config
+    (setq-default js2-ignored-warnings '("msg.extra.trailing.comma")))
+#+END_SRC
+
+=js2-refactor= supports some useful refactoring options and builds on top of =js2-mode=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js2-refactor
+    :config
+    (js2r-add-keybindings-with-prefix "C-c C-m")
+    (add-hook 'js2-mode-hook 'js2-refactor-mode))
+#+END_SRC
+
+RJSX mode makes JSX work well.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package rjsx-mode)
+#+END_SRC
+
+Prettier-js autoformats JS code - much like `gofmt` - and we hook it into JS2 and RJSX modes.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package prettier-js
+    :config
+    (setq prettier-js-args '(
+                          "--trailing-comma" "es5"
+                          "--single-quote" "true"
+                          "--print-width" "100"
+                          ))
+    (add-hook 'js2-mode-hook 'prettier-js-mode)
+    (add-hook 'rjsx-mode-hook 'prettier-js-mode))
+#+END_SRC
+
+=js-doc= makes it easy to add jsdoc comments via =Ctrl+c i=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package js-doc
+    :bind (:map js2-mode-map
+           ("C-c i" . js-doc-insert-function-doc)
+           ("@" . js-doc-insert-tag))
+    :config
+    (setq js-doc-mail-address "jamiecollinson@gmail.com"
+         js-doc-author (format "Jamie Collinson <%s>" js-doc-mail-address)
+         js-doc-url "jamiecollinson.com"
+         js-doc-license "MIT License"))
+#+END_SRC
+
+Sometimes it's useful to use the local eslint provided by a project's node_modules directory. We call this function from a flycheck hook to enable it automatically.
+
+#+BEGIN_SRC emacs-lisp
+  (defun jc/use-eslint-from-node-modules ()
+    "Set local eslint if available."
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (eslint (and root
+                        (expand-file-name "node_modules/eslint/bin/eslint.js"
+                                          root))))
+      (when (and eslint (file-executable-p eslint))
+        (setq-local flycheck-javascript-eslint-executable eslint))))
+#+END_SRC
+
+We often want to use local packages instead of global ones.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package add-node-modules-path)
+#+END_SRC
+
+Add handling for =.svelte= files.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package svelte-mode)
+#+END_SRC
+
+** Web mode
+
+Web mode handles html/css/js.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-mode
+    :mode ("\\.html\\'")
+    :config
+    (setq web-mode-markup-indent-offset 2)
+    (setq web-mode-engines-alist
+          '(("django" . "focus/.*\\.html\\'")
+            ("ctemplate" . "realtimecrm/.*\\.html\\'"))))
+#+END_SRC
+
+** Web Beautify
+
+Web beautify prettifies html / css / js using js-beautify - install with =npm install -g js-beautify=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package web-beautify
+    :bind (:map web-mode-map
+           ("C-c b" . web-beautify-html)
+           :map js2-mode-map
+           ("C-c b" . web-beautify-js)))
+#+END_SRC
+
+** Markdown
+
+Markdown support isn't built into Emacs, add it with =markdown-mode=.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package markdown-mode
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "multimarkdown"))
+#+END_SRC
+
+** Python
+
+Pyvenv handles virtual environment support.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package pyvenv)
+#+END_SRC
+
+Black is an opinionated pyton formatter. Install with =pip install black= so the command line tool is available.
+
+#+BEGIN_SRC emacs-lisp
+  (use-package blacken
+    :config
+    (add-hook 'python-mode-hook 'blacken-mode))
+#+END_SRC
 
 ** Projectile
 
@@ -242,16 +738,16 @@ So directories don't get cluttered with backupfiles.
     :diminish projectile-mode
     :config (projectile-mode)
     :custom ((projectile-completion-system 'ivy))
+    :bind-keymap
+    ("C-c p" . projectile-command-map)
     :init
+    ;; NOTE: Set this to the folder where you keep your Git repos!
     (when (file-directory-p "~/doc/repos")
       (setq projectile-project-search-path '("~/doc/repos")))
     (setq projectile-switch-project-action #'projectile-dired))
 
   (use-package counsel-projectile
-  :config (counsel-projectile-mode))
-
-  (nvmap :prefix "SPC"
-    "p" '(projectile-command-map :which-key "projectile"))
+    :config (counsel-projectile-mode))
 #+end_src
 
 ** Magit
@@ -260,7 +756,21 @@ So directories don't get cluttered with backupfiles.
   (use-package magit
     :custom
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
+
+  ;; NOTE: Make sure to configure a GitHub token before using this package!
+  ;; - https://magit.vc/manual/forge/Token-Creation.html#Token-Creation
+  ;; - https://magit.vc/manual/ghub/Getting-Started.html#Getting-Started
+  (use-package forge)
 #+end_src
 
 ** Rainbow Delimiters
 
+#+begin_src emacs-lisp
+  (use-package rainbow-delimiters
+    :hook (prog-mode . rainbow-delimiters-mode))
+#+end_src
+
+* Applications
+
+#+begin_src emacs-lisp
+#+end_src
