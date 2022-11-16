@@ -254,12 +254,7 @@
 #+end_src
 
 * Org Mode Config
-
-#+begin_src emacs-lisp
-#+end_src
-
 ** Better Font Face
-
 #+begin_src emacs-lisp
   (defun ab/org-font-setup ()
     ;; Replace list hyphen with dot
@@ -289,7 +284,6 @@
 #+end_src
 
 ** Basic Config
-
 #+begin_src emacs-lisp
   (defun ab/org-mode-setup ()
     (org-indent-mode)
@@ -455,7 +449,6 @@
 #+end_src
 
 * Dev
-
 #+begin_src emacs-lisp
   (use-package smartparens
       :config
@@ -474,7 +467,6 @@
 #+end_src
 
 ** Fuzzy search
-
 #+begin_src emacs-lisp
   (use-package fzf)
   (use-package deadgrep)
@@ -498,7 +490,6 @@ Individual language packages often support IDE features like jump to source, but
 #+end_src
 
 ** Syntax checking
-
 Flycheck is a general syntax highlighting framework which other packages hook into. It's an improvment on the built in flymake.
 Setup is pretty simple - we just enable globally and turn on a custom eslint function, and also add a custom checker for proselint.
 #+begin_src emacs-lisp
@@ -573,7 +564,6 @@ Proselint is an external program, install it with pip install proselint for this
 ** Snippets
 
 Unlike autocomplete which suggests words / symbols, snippets are pre-prepared templates which you fill in.
-
 Type the shortcut and press =TAB= to complete, or =M-/= to autosuggest a snippet.
 
 #+BEGIN_SRC emacs-lisp
