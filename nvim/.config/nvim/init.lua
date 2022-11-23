@@ -1,12 +1,8 @@
---[[ ini.lua ]]
-require 'vars'
-require 'opts'
-require 'keys'
-require 'plug'
-
-require 'lsp-conf'
-require 'cmp-conf'
-require 'bufferline-conf'
-require 'nvim-tree-conf'
-require 'lualine-conf'
-require 'nvim-autopairs'.setup {}
+require "koriander.plugins"
+require "koriander.core.options"
+require "koriander.core.keymaps"
+require "koriander.core.colors"
+require "koriander.plugins.comment"
+require "koriander.plugins.nvim-tree"
+require "koriander.plugins.lualine"
+require "koriander.plugins.telescope"
