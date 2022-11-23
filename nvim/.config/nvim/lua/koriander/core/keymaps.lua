@@ -28,8 +28,8 @@ map.set("n", "<leader>sc", ":close<CR>") -- close current split window
 
 map.set("n", "<leader>to", ":tabnew<CR>") -- open new tab
 map.set("n", "<leader>tx", ":tabclose<CR>") -- close current tab
-map.set("n", "<S-l>", ":tabn<CR>") --  go to next tab
-map.set("n", "<S-h>", ":tabp<CR>") --  go to previous tab
+map.set("n", "<S-l>", ":BufferLineCycleNext<CR>") --  go to next tab
+map.set("n", "<S-h>", ":BufferLineCyclePrev<CR>") --  go to previous tab
 
 ----------------------
 -- Plugin Keybinds

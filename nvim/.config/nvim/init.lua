@@ -1,8 +1,17 @@
-require "koriander.plugins"
-require "koriander.core.options"
-require "koriander.core.keymaps"
-require "koriander.core.colors"
-require "koriander.plugins.comment"
-require "koriander.plugins.nvim-tree"
-require "koriander.plugins.lualine"
-require "koriander.plugins.telescope"
+require("koriander.plugins")
+require("koriander.core.options")
+require("koriander.core.keymaps")
+require("koriander.core.colors")
+require("koriander.plugins.comment")
+require("koriander.plugins.nvim-tree")
+require("koriander.plugins.lualine")
+require("koriander.plugins.telescope")
+require("koriander.plugins.bufferline")
+require("koriander.plugins.nvim-cmp")
+require("koriander.plugins.lsp.mason")
+require("koriander.plugins.lsp.lspsaga")
+require("koriander.plugins.lsp.lspconfig")
+require("koriander.plugins.lsp.null-ls")
+require("koriander.plugins.autopairs")
+require("koriander.plugins.treesitter")
+require("koriander.plugins.gitsigns")
