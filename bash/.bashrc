@@ -8,7 +8,7 @@ export PATH="$HOME/.emacs.d/bin:$PATH"
     . /usr/share/bash-completion/bash_completion
 
 # use neovim for vim if present.
-# [ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
+[ -x "$(command -v nvim)" ] && alias vim="nvim" vimdiff="nvim -d"
 
 ### SET VI MODE ###
 # Comment this line out to enable default emacs-like bindings

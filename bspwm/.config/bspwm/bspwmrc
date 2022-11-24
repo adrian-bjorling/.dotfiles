@@ -31,7 +31,5 @@ emacs --daemon &
 # Cursor
 xsetroot -cursor_name left_ptr &
 
-xmodmap ~/.Xmodmap
-
 # Low battery notifier
 ~/.config/bspwm/scripts/low_bat_notifier.sh
