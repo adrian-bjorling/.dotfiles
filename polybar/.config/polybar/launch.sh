@@ -8,3 +8,6 @@ while pgrep -u $UID -x polybar >/dev/null; do sleep 1; done
 
 # Launch Polybar
 polybar top -c ~/.config/polybar/config.ini &
+if [[ $(xrandr -q | grep "HDMI-A-0 connected") ]]; then
+    polybar second -c ~/.config/polybar/config.ini &
+fi
