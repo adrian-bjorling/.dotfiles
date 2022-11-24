@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/LuaSnip",
     url = "https://github.com/L3MON4D3/LuaSnip"
   },
+  ["beacon.nvim"] = {
+    loaded = true,
+    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/beacon.nvim",
+    url = "https://github.com/danilamihailov/beacon.nvim"
+  },
   ["bufferline.nvim"] = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/bufferline.nvim",
@@ -238,6 +243,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/home/koriander/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",
     url = "https://github.com/christoomey/vim-tmux-navigator"
+  },
+  vimwiki = {
+    loaded = true,
+    path = "/home/koriander/.local/share/nvim/site/pack/packer/start/vimwiki",
+    url = "https://github.com/vimwiki/vimwiki"
   }
 }
 

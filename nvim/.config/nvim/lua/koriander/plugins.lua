@@ -41,6 +41,9 @@ return packer.startup(function(use)
 	-- bufferline
 	use({ "akinsho/bufferline.nvim", tag = "v3.*", requires = "nvim-tree/nvim-web-devicons" })
 
+	-- Cursor beacon
+	use("danilamihailov/beacon.nvim")
+
 	-- FILE NAVIGATION
 	use("christoomey/vim-tmux-navigator") -- tmux & split window navigation
 	use("szw/vim-maximizer") -- maximizes and restores current window
@@ -97,6 +100,9 @@ return packer.startup(function(use)
 
 	-- git integration
 	use("lewis6991/gitsigns.nvim") -- show line modifications on left hand side
+
+	-- VimWiki
+	use("vimwiki/vimwiki")
 
 	if packer_bootstrap then
 		require("packer").sync()
