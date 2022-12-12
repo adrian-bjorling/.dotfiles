@@ -1,40 +1,33 @@
-##       ____             __
-##      / __ \_________ _/ /_____
-##     / / / / ___/ __ `/ //_/ _ \
-##    / /_/ / /  / /_/ / ,< /  __/  Clay Gomera (Drake)
-##   /_____/_/   \__,_/_/|_|\___/   My custom zathura config
-##
+set font                        "JetBrains Nerd Font 9"
+set default-bg                  "#1e2127" #00
+set default-fg                  "#abb2bf" #01
 
-set font                        "mononoki Nerd Font 9"
-set default-bg                  "#262626" #00
-set default-fg                  "#ebdbb2" #01
+set statusbar-fg                "#abb2bf" #04
+set statusbar-bg                "#1e2127" #01
 
-set statusbar-fg                "#ebdbb2" #04
-set statusbar-bg                "#262626" #01
+set inputbar-bg                 "#1e2127" #00 currently not used
+set inputbar-fg                 "#abb2bf" #02
 
-set inputbar-bg                 "#262626" #00 currently not used
-set inputbar-fg                 "#ebdbb2" #02
+set notification-error-bg       "#1e2127" #08
+set notification-error-fg       "#e5c07b" #00
 
-set notification-error-bg       "#262626" #08
-set notification-error-fg       "#cc241d" #00
+set notification-warning-bg     "#1e2127" #08
+set notification-warning-fg     "#e06c75" #00
 
-set notification-warning-bg     "#262626" #08
-set notification-warning-fg     "#d79921" #00
-
-set highlight-color             "#262626" #0A
-set highlight-active-color      "#ebdbb2" #0D
+set highlight-color             "#1e2127" #0A
+set highlight-active-color      "#abb2bf" #0D
 
 set completion-highlight-fg     "#4e4e4e" #02
 set completion-highlight-bg     "#87afaf" #0C
 
 set completion-bg               "#4e4e4e" #02
-set completion-fg               "#ebdbb2" #0C
+set completion-fg               "#abb2bf" #0C
 
-set notification-bg             "#262626" #0B
+set notification-bg             "#1e2127" #0B
 set notification-fg             "#458588" #00
 
-set recolor-lightcolor          "#262626" #00
-set recolor-darkcolor           "#ebdbb2" #06
+set recolor-lightcolor          "#1e2127" #00
+set recolor-darkcolor           "#abb2bf" #06
 set recolor                     "true"
 
 # setting recolor-keep true will keep any color your pdf has.

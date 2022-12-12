@@ -6,8 +6,8 @@ if [[ $(xrandr -q | grep "HDMI connected") ]]; then
     xrandr --output eDP --primary --mode 1920x1080 --rotate normal --output HDMI-A-0 --mode 1920x1080 --rotate normal --right-of eDP
 fi
 
-bspc monitor eDP -d 1 2 3 4 5
-bspc monitor HDMI-A-0 -d 6
+bspc monitor eDP -d I II III IV V
+bspc monitor HDMI-A-0 -d VI
 
 bspc config border_width          0
 bspc config window_gap            0
