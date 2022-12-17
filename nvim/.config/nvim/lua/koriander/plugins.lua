@@ -35,6 +35,14 @@ return packer.startup(function(use)
 	-- GUI
 	use("navarasu/onedark.nvim")
 
+	use({
+		"rose-pine/neovim",
+		as = "rose-pine",
+		config = function()
+			vim.cmd("colorscheme rose-pine")
+		end,
+	})
+
 	-- statusline
 	use("nvim-lualine/lualine.nvim")
 
